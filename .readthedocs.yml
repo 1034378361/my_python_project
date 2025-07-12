@@ -1,0 +1,21 @@
+# .readthedocs.yml
+# Read the Docs configuration file
+# See https://docs.readthedocs.io/en/stable/config-file/v2.html for details
+
+version: 2
+
+# 使用MkDocs构建文档
+mkdocs:
+  configuration: mkdocs.yml
+
+# 设置Python环境
+python:
+  version: "3.11"
+  install:
+    - method: pip
+      path: .
+      extra_requirements:
+        - dev
+
+# 构建所有格式的文档
+formats: all

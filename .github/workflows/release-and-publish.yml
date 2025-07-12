@@ -1,0 +1,130 @@
+name: Release and Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g., v1.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  id-token: write  # 用于PyPI可信发布
+
+jobs:
+  release-and-publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      
+    - name: Install dependencies
+      run: |
+        uv sync --extra full-dev
+        
+    - name: Run tests
+      run: |
+        uv run pytest --cov=my_python_project --cov-report=xml
+        
+    - name: Extract version from tag
+      id: version
+      run: |
+        if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+          VERSION="${{ github.event.inputs.tag }}"
+        else
+          VERSION="${{ github.ref_name }}"
+        fi
+        VERSION=${VERSION#v}
+        echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        echo "tag=${VERSION}" >> $GITHUB_OUTPUT
+        
+    - name: Update version in pyproject.toml
+      run: |
+        # 使用uv来更新版本
+        uv run python -c "
+        import re
+        with open('pyproject.toml', 'r') as f:
+            content = f.read()
+        content = re.sub(r'version = \"[^\"]+\"', f'version = \"${{ steps.version.outputs.version }}\"', content)
+        with open('pyproject.toml', 'w') as f:
+            f.write(content)
+        "
+        
+    - name: Build package
+      run: |
+        uv build
+        
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        # 使用API token发布
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ steps.version.outputs.version }}
+        name: "Release ${{ steps.version.outputs.version }}"
+        body: |
+          ## 🎉 Release ${{ steps.version.outputs.version }}
+          
+          ### 📦 Installation
+          
+          ```bash
+          # Install from PyPI
+          pip install my_python_project
+          
+          # Install with uv
+          uv add my_python_project
+          ```
+          
+          ### 🚀 Quick Start
+          
+          ```bash
+          # Python usage
+          import my_python_project
+          print(my_python_project.__version__)
+          ```
+          
+          ### 📋 Features
+          现代Python项目模板，使用uv管理依赖和虚拟环境。
+          
+          ### 🔗 Links
+          - 📖 [Documentation](https://github.com/1034378361/my_python_project#readme)
+          - 🐛 [Issue Tracker](https://github.com/1034378361/my_python_project/issues)
+          
+          ---
+          
+          **Full Changelog**: [CHANGELOG.md](https://github.com/1034378361/my_python_project/blob/${{ steps.version.outputs.version }}/CHANGELOG.md)
+        files: |
+          dist/*
+        draft: false
+        prerelease: false
+        
+    - name: Post-release summary
+      run: |
+        echo "## 🎉 Release Complete!" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Version ${{ steps.version.outputs.version }} has been successfully published to:" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ PyPI: https://pypi.org/project/my_python_project/" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ GitHub Releases: https://github.com/1034378361/my_python_project/releases" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Installation Test" >> $GITHUB_STEP_SUMMARY
+        echo '```bash' >> $GITHUB_STEP_SUMMARY
+        echo "pip install my_python_project" >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY

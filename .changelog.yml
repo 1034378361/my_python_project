@@ -1,0 +1,53 @@
+# CHANGELOG配置文件
+# 自定义提交类型分类和显示方式
+
+# 提交类型映射 - 可根据项目需求自定义
+commit_types:
+  # 标准类型
+  feat: "新功能"
+  fix: "Bug修复"
+  docs: "文档更新"
+  style: "代码风格"
+  refactor: "重构"
+  perf: "性能优化"
+  test: "测试相关"
+  build: "构建系统"
+  ci: "CI配置"
+  chore: "其他变更"
+  revert: "回退提交"
+
+  # 自定义类型 - 根据项目需求添加
+  data: "数据更新"
+  data:etl: "数据ETL流程"
+  data:schema: "数据模式变更"
+  data:quality: "数据质量改进"
+  data:viz: "数据可视化"
+  api: "API变更"
+  ui: "用户界面"
+  security: "安全更新"
+  db: "数据库变更"
+  config: "配置更新"
+  dep: "依赖更新"
+
+  # 机器学习相关类型
+  ml:model: "模型更新"
+  ml:train: "训练流程"
+  ml:eval: "评估方法"
+  ml:feat: "特征工程"
+  ml:deploy: "模型部署"
+
+  # DevOps相关类型
+  infra: "基础设施变更"
+  monitor: "监控系统"
+  scale: "扩展性改进"
+
+# 未知类型的提交将被归类为此类型
+default_type: "chore"
+
+# CHANGELOG标题
+header: |
+  # 变更日志
+
+  所有项目的显著变更都将记录在此文件中。
+
+  此项目遵循[语义化版本](https://semver.org/lang/zh-CN/)，并使用[约定式提交](https://www.conventionalcommits.org/zh-hans/)格式。

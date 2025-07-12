@@ -1,0 +1,212 @@
+[project]
+name = "my_python_project"
+dynamic = ["version"]
+description = "现代Python项目模板，使用uv管理依赖和虚拟环境。"
+readme = "README.md"
+authors = [
+  {name = "周元琦", email = "zyq1034378361@gmail.com"}
+]
+license = {text = "MIT License"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.11"
+
+# 基础依赖 - 项目运行时必需的核心依赖
+dependencies = [
+    # 类型提示支持（为旧版本Python提供）
+    "typing-extensions>=4.5.0; python_version<'3.12'",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/1034378361/my_python_project"
+"Bug Tracker" = "https://github.com/1034378361/my_python_project/issues"
+"Repository" = "https://github.com/1034378361/my_python_project"
+
+# 开发依赖
+[project.optional-dependencies]
+# 开发工具
+dev = [
+    "pre-commit>=3.5.0",
+    "ipython>=8.18.0",
+]
+
+# 测试工具
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+]
+
+# 代码质量
+lint = [
+    "ruff>=0.11.13",
+    "mypy>=1.6.0",
+]
+
+# 文档工具
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.4.0",
+]
+
+# 全部开发依赖
+full-dev = [
+    # 开发工具
+    "pre-commit>=3.5.0",
+    "ipython>=8.18.0",
+    # 测试工具
+    "pytest>=7.0.0",
+    "pytest-cov>=4.1.0",
+    # 代码质量
+    "ruff>=0.11.13",
+    "mypy>=1.6.0",
+    # 文档工具
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.4.0",
+]
+
+# 项目类型特定依赖
+cli = [
+    "typer>=0.9.0",
+    "rich>=10.0.0",
+]
+
+web = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.23.0",
+]
+
+data = [
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "matplotlib>=3.7.0",
+]
+
+# 可选格式支持
+yaml = [
+    "PyYAML>=6.0",
+]
+
+toml = [
+    "tomli>=2.0.0; python_version<'3.11'",
+]
+
+redis = [
+    "redis>=4.5.0",
+]
+
+# 所有可选功能
+all = [
+    "PyYAML>=6.0",
+    "tomli>=2.0.0; python_version<'3.11'",
+    "redis>=4.5.0",
+]
+
+# 命令行入口点
+[project.scripts]
+my_python_project = "my_python_project.cli:main"
+
+# 构建系统
+[build-system]
+requires = ["setuptools>=61", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+# 版本管理
+[tool.setuptools_scm]
+write_to = "src/my_python_project/_version.py"
+version_scheme = "python-simplified-semver"
+local_scheme = "no-local-version"
+
+# 包发现
+[tool.setuptools.packages.find]
+where = ["src"]
+
+# Ruff 配置
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+extend-select = [
+    "F",   # pyflakes - 语法错误和未定义变量
+    "E",   # pycodestyle errors - 重要的语法问题
+    "UP",  # pyupgrade - 类型注解现代化
+    "B",   # flake8-bugbear - 常见错误模式
+    "I",   # isort - 导入排序（可自动修复）
+]
+ignore = [
+    # 行长度和格式相关 - 不影响程序运行
+    "E501",  # line too long - 行长度限制
+    "E401",  # multiple imports on one line
+    "E402",  # module level import not at top of file
+    "E711",  # comparison to None should be 'if cond is None:'
+    "E712",  # comparison to True should be 'if cond is True:' or 'if cond:'
+    
+    # Bugbear规则 - 某些可以忽略的情况
+    "B008",  # do not perform function calls in argument defaults (for typer)
+    "B904",  # raise without from inside except
+    "B905",  # zip without explicit strict parameter
+    "B017",  # pytest.raises(Exception) is too broad
+    "B018",  # found useless expression (needed for pytest attribute access tests)
+    
+    # 空白字符相关 - 可自动修复，不阻塞开发
+    "W291",  # trailing whitespace
+    "W292",  # no newline at end of file  
+    "W293",  # blank line contains whitespace
+    
+    # 导入相关 - 可自动修复
+    "I001",  # import block is un-sorted or un-formatted
+    
+    # 类型注解现代化 - 可自动修复的upgrade规则
+    "UP006", # use list instead of List
+    "UP007", # use X | Y instead of Union[X, Y]
+    "UP015", # unnecessary open mode parameters
+    "UP017", # use datetime.UTC alias
+    "UP035", # use X | Y instead of Union[X, Y]  
+    "UP045", # use X | None instead of Optional[X]
+    
+    # 其他不影响功能的检查
+    "F401",  # imported but unused - 在某些模块中可能需要导入但不直接使用
+    "F541",  # f-string without placeholders
+    "F841",  # local variable assigned but never used (在测试中常见)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "F401", "F811", "B017", "B018", "F841"]  # test-specific ignores
+"scripts/*" = ["T201", "T203", "F401"]  # allow print statements and unused imports in scripts
+
+# MyPy 配置
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+# Pytest 配置
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+addopts = [
+    "--cov=src/my_python_project",
+    "--cov-report=html",
+    "--cov-report=term-missing",
+]
+
+# Coverage 配置
+[tool.coverage.run]
+source = ["src/my_python_project"]
+omit = ["src/my_python_project/_version.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+]

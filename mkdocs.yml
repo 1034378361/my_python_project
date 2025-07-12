@@ -1,0 +1,85 @@
+site_name: My Python Project
+site_description: 现代Python项目模板，使用uv管理依赖和虚拟环境。
+site_author: 周元琦
+site_url: https://my_python_project.readthedocs.io/
+
+repo_name: 1034378361/my_python_project
+repo_url: https://github.com/1034378361/my_python_project
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+  language: zh
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+      primary: teal
+      accent: purple
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+      primary: teal
+      accent: lime
+
+nav:
+  - 首页: index.md
+  - 快速开始:
+    - 安装指南: getting-started/installation.md
+    - 快速上手: getting-started/quickstart.md
+  - 用户指南:
+    - 基本使用: usage.md
+    - 配置管理: user-guide/config_management.md
+    - 日志系统: user-guide/logging.md
+    - 路径管理: user-guide/path_management.md
+    - 路径管理详解: path_management.md
+  - 高级功能:
+    - 缓存系统: advanced/caching.md
+    - 数据验证: advanced/validation.md
+    - 性能监控: advanced/performance_monitoring.md
+    - 集成指南: advanced/integration_guide.md
+  - 示例代码:
+    - 基础使用: examples/basic-usage.md
+    - Web应用: examples/web-application.md
+  - 参考文档:
+    - 工具函数: reference/utilities.md
+    - 最佳实践: best_practices.md
+    - 常见问题: faq.md
+  - 开发文档:
+    - 贡献指南: development/contributing.md
+    - 项目结构: development/project_structure.md
+    - 测试指南: development/testing.md
+    - 版本管理: development/version_management.md
+    - Docker支持: development/docker.md
+    - 文档部署: deployment.md
+
+plugins:
+  - search:
+      lang: zh
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.mark
+  - attr_list
+  - pymdownx.emoji
+
