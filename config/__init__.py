@@ -9,6 +9,7 @@ from typing import Any
 
 try:
     import yaml
+
     YAML_AVAILABLE = True
 except ImportError:
     YAML_AVAILABLE = False
@@ -67,7 +68,7 @@ def load_config(
         # 返回空配置而不是抛出异常
         return {}
 
-    with open(config_path, encoding='utf-8') as f:
+    with open(config_path, encoding="utf-8") as f:
         if config_format == "yaml":
             if not YAML_AVAILABLE:
                 raise ImportError("需要安装PyYAML来使用YAML配置: pip install PyYAML")
@@ -103,10 +104,11 @@ def init_logging(*args, **kwargs):
     注意: 此函数已废弃，请使用 utils.logging_utils.auto_setup_project_logging()
     """
     import warnings
+
     warnings.warn(
         "config.init_logging 已废弃，请使用 utils.logging_utils.auto_setup_project_logging()",
         DeprecationWarning,
-        stacklevel=2
+        stacklevel=2,
     )
 
     try:
@@ -118,9 +120,10 @@ def init_logging(*args, **kwargs):
     except ImportError:
         # 基本日志配置作为后备
         import logging
+
         logging.basicConfig(
             level=logging.INFO,
-            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         )
 
 
@@ -130,15 +133,18 @@ def get_logger(name: str = None):
     注意: 此函数已废弃，请使用 utils.logging_utils.get_project_logger()
     """
     import warnings
+
     warnings.warn(
         "config.get_logger 已废弃，请使用 utils.logging_utils.get_project_logger()",
         DeprecationWarning,
-        stacklevel=2
+        stacklevel=2,
     )
 
     try:
         from ..src.my_python_project.utils.logging_utils import get_project_logger
+
         return get_project_logger(name)
     except ImportError:
         import logging
+
         return logging.getLogger(name or "my_python_project")

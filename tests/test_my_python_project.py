@@ -22,7 +22,9 @@ def test_content(response):
     # from bs4 import BeautifulSoup
     # assert 'GitHub' in BeautifulSoup(response.content).title.string
 
+
 def test_version():
     """Test version import."""
     from my_python_project import __version__
+
     assert __version__

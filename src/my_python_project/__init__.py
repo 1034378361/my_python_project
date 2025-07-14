@@ -4,7 +4,7 @@ import logging
 import os
 
 __author__ = """周元琦"""
-__email__ = 'zyq1034378361@gmail.com'
+__email__ = "zyq1034378361@gmail.com"
 
 # 版本号获取，优先级：包元数据 > _version.py > fallback
 # 多级版本获取机制，确保在任何环境下都能正确获取版本号
@@ -25,6 +25,7 @@ except PackageNotFoundError:
 # 尝试从配置文件初始化日志，如果失败则使用基本配置
 try:
     from .utils.logging_utils import auto_setup_project_logging, get_project_logger
+
     # 初始化高级日志系统
     auto_setup_project_logging()
     logger = get_project_logger()
@@ -32,8 +33,10 @@ try:
 except Exception:
     # 回退到基本日志配置
     logging.basicConfig(
-        level=logging.INFO if os.environ.get('DEBUG', '').lower() not in ('1', 'true') else logging.DEBUG,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        level=logging.INFO
+        if os.environ.get("DEBUG", "").lower() not in ("1", "true")
+        else logging.DEBUG,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
     logger = logging.getLogger("my_python_project")
     logger.warning("使用基本日志配置（高级日志系统初始化失败）")
@@ -81,31 +84,47 @@ try:
 
     __all__ = [
         # 版本和基础
-        '__version__', 'utils',
-
+        "__version__",
+        "utils",
         # 核心功能
-        'get_project_logger', 'auto_setup_project_logging', 'load_logging_config_from_file',
-        'init_project_logging', 'ConfigManager', 'validate_data',
-        'MemoryCache', 'FileCache', 'MultiLevelCache', 'cache_result',
-
+        "get_project_logger",
+        "auto_setup_project_logging",
+        "load_logging_config_from_file",
+        "init_project_logging",
+        "ConfigManager",
+        "validate_data",
+        "MemoryCache",
+        "FileCache",
+        "MultiLevelCache",
+        "cache_result",
         # 性能监控
-        'PerformanceMonitor', 'benchmark',
-
+        "PerformanceMonitor",
+        "benchmark",
         # 路径管理
-        'ProjectPathManager', 'init_project_paths',
-
+        "ProjectPathManager",
+        "init_project_paths",
         # 验证器
-        'StringValidator', 'NumberValidator', 'DictValidator', 'EmailValidator',
-
+        "StringValidator",
+        "NumberValidator",
+        "DictValidator",
+        "EmailValidator",
         # 异常处理
-        'BaseError', 'ConfigError', 'ValidationError', 'CacheError',
-        'handle_exceptions', 'ErrorHandler',
-
+        "BaseError",
+        "ConfigError",
+        "ValidationError",
+        "CacheError",
+        "handle_exceptions",
+        "ErrorHandler",
         # 常用工具
-        'now_timestamp', 'format_datetime', 'safe_filename', 'deep_merge',
-        'retry_on_failure', 'timing_decorator', 'is_valid_email'
+        "now_timestamp",
+        "format_datetime",
+        "safe_filename",
+        "deep_merge",
+        "retry_on_failure",
+        "timing_decorator",
+        "is_valid_email",
     ]
 
 except ImportError as e:
     logger.warning(f"某些模块导入失败，可能影响功能可用性: {e}")
-    __all__ = ['__version__', 'utils']
+    __all__ = ["__version__", "utils"]

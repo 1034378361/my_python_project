@@ -1,17 +1,22 @@
 #!/usr/bin/env python
 """uv项目初始化脚本"""
+
 import subprocess
 import sys
 from pathlib import Path
 
+
 def check_uv():
     """检查uv是否安装"""
     try:
-        result = subprocess.run(["uv", "--version"], check=True, capture_output=True, text=True)
+        result = subprocess.run(
+            ["uv", "--version"], check=True, capture_output=True, text=True
+        )
         print(f"✅ 检测到 {result.stdout.strip()}")
         return True
     except (subprocess.CalledProcessError, FileNotFoundError):
         return False
+
 
 def setup_uv_environment():
     """设置uv虚拟环境和依赖"""
@@ -42,6 +47,7 @@ def setup_uv_environment():
         print(f"❌ 环境配置失败: {e}")
         return False
 
+
 def main():
     """主函数"""
     print("🚀 初始化 My Python Project (uv环境)")
@@ -71,6 +77,7 @@ def main():
     print("\n或激活虚拟环境:")
     print("• source .venv/bin/activate      # Linux/Mac")
     print("• .venv\\Scripts\\activate         # Windows")
+
 
 if __name__ == "__main__":
     main()

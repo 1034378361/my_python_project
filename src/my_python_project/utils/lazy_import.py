@@ -13,11 +13,11 @@ from typing import Any, Callable, Dict, Optional
 
 class LazyImport:
     """延迟导入类"""
-    
+
     def __init__(self, module_name: str, attribute: Optional[str] = None):
         """
         初始化延迟导入
-        
+
         Args:
             module_name: 模块名称
             attribute: 属性名称
@@ -27,27 +27,27 @@ class LazyImport:
         self._module = None
         self._value = None
         self._imported = False
-    
+
     def __getattr__(self, name: str) -> Any:
         """获取属性时触发导入"""
         if not self._imported:
             self._import()
-        
+
         if self.attribute:
             return getattr(self._value, name)
         else:
             return getattr(self._module, name)
-    
+
     def __call__(self, *args, **kwargs) -> Any:
         """调用时触发导入"""
         if not self._imported:
             self._import()
-        
+
         if self.attribute:
             return self._value(*args, **kwargs)
         else:
             return self._module(*args, **kwargs)
-    
+
     def _import(self) -> None:
         """执行实际导入"""
         try:
@@ -57,7 +57,7 @@ class LazyImport:
             self._imported = True
         except ImportError as e:
             raise ImportError(f"无法导入 {self.module_name}: {e}")
-    
+
     def is_available(self) -> bool:
         """检查模块是否可用"""
         try:
@@ -69,24 +69,24 @@ class LazyImport:
 
 class LazyModule:
     """延迟模块加载器"""
-    
+
     def __init__(self, module_name: str):
         """
         初始化延迟模块
-        
+
         Args:
             module_name: 模块名称
         """
         self.__name__ = module_name
         self.__module = None
         self.__imported = False
-    
+
     def __getattr__(self, name: str) -> Any:
         """获取属性时触发导入"""
         if not self.__imported:
             self.__import_module()
         return getattr(self.__module, name)
-    
+
     def __import_module(self) -> None:
         """导入模块"""
         try:
@@ -103,32 +103,33 @@ _lazy_imports: Dict[str, LazyImport] = {}
 def lazy_import(module_name: str, attribute: Optional[str] = None) -> LazyImport:
     """
     创建延迟导入对象
-    
+
     Args:
         module_name: 模块名称
         attribute: 属性名称
-        
+
     Returns:
         延迟导入对象
     """
     key = f"{module_name}.{attribute}" if attribute else module_name
-    
+
     if key not in _lazy_imports:
         _lazy_imports[key] = LazyImport(module_name, attribute)
-    
+
     return _lazy_imports[key]
 
 
-def conditional_import(module_name: str, fallback: Any = None, 
-                      error_handler: Optional[Callable] = None) -> Any:
+def conditional_import(
+    module_name: str, fallback: Any = None, error_handler: Optional[Callable] = None
+) -> Any:
     """
     条件导入，如果导入失败返回fallback
-    
+
     Args:
         module_name: 模块名称
         fallback: 导入失败时的备用值
         error_handler: 错误处理函数
-        
+
     Returns:
         导入的模块或fallback值
     """
@@ -143,11 +144,11 @@ def conditional_import(module_name: str, fallback: Any = None,
 def import_optional(module_name: str, package: Optional[str] = None) -> Optional[Any]:
     """
     可选导入，失败时返回None并发出警告
-    
+
     Args:
         module_name: 模块名称
         package: 包名
-        
+
     Returns:
         导入的模块或None
     """
@@ -161,36 +162,37 @@ def import_optional(module_name: str, package: Optional[str] = None) -> Optional
 def preload_modules(module_names: list, background: bool = False) -> Dict[str, Any]:
     """
     预加载模块
-    
+
     Args:
         module_names: 模块名称列表
         background: 是否在后台线程中加载
-        
+
     Returns:
         加载的模块字典
     """
     modules = {}
-    
+
     def load_module(name: str) -> None:
         try:
             modules[name] = importlib.import_module(name)
         except ImportError as e:
             warnings.warn(f"预加载模块 {name} 失败: {e}", stacklevel=2)
-    
+
     if background:
         import threading
+
         threads = []
         for name in module_names:
             thread = threading.Thread(target=load_module, args=(name,))
             thread.start()
             threads.append(thread)
-        
+
         for thread in threads:
             thread.join()
     else:
         for name in module_names:
             load_module(name)
-    
+
     return modules
 
 
@@ -204,16 +206,17 @@ redis_client = lazy_import("redis", "Redis")
 
 class OptionalDependency:
     """可选依赖管理器"""
-    
+
     def __init__(self) -> None:
         self._available: Dict[str, bool] = {}
         self._modules: Dict[str, Any] = {}
-    
-    def register(self, name: str, module_name: str, 
-                install_hint: Optional[str] = None) -> None:
+
+    def register(
+        self, name: str, module_name: str, install_hint: Optional[str] = None
+    ) -> None:
         """
         注册可选依赖
-        
+
         Args:
             name: 依赖名称
             module_name: 模块名称
@@ -229,17 +232,17 @@ class OptionalDependency:
                 warnings.warn(
                     f"可选依赖 {name} 未安装。安装命令: {install_hint}",
                     ImportWarning,
-                    stacklevel=2
+                    stacklevel=2,
                 )
-    
+
     def is_available(self, name: str) -> bool:
         """检查依赖是否可用"""
         return self._available.get(name, False)
-    
+
     def get_module(self, name: str) -> Optional[Any]:
         """获取模块"""
         return self._modules.get(name)
-    
+
     def require(self, name: str) -> Any:
         """要求依赖必须可用"""
         if not self.is_available(name):

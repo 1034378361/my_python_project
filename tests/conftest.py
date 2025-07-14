@@ -21,9 +21,7 @@ def sample_data():
         "name": "test",
         "value": 42,
         "items": ["a", "b", "c"],
-        "nested": {
-            "key": "value"
-        }
+        "nested": {"key": "value"},
     }
 
 
