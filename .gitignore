@@ -1,0 +1,192 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Dask worker cache
+dask-worker-space/
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# dotenv
+.env
+
+# virtualenv
+.venv
+venv/
+ENV/
+.venv_win/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# IDE settings
+.vscode/settings.json
+.idea/workspace.xml
+*.swp
+*.swo
+
+# 安全相关文件
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+.secrets.baseline
+bandit-report.json
+safety-report.json
+
+# 日志文件
+*.log
+logs/
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 临时文件
+*.tmp
+*.temp
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 备份文件
+*.bak
+*.backup
+*~
+
+output/
+
+# PDM相关
+__pypackages__/
+.pdm-python
+pdm.lock
+
+# 测试和覆盖率相关
+.coverage.*
+coverage.xml
+.pytest_cache/
+.hypothesis/
+junit.xml
+
+# 性能分析
+*.prof
+.prof/
+
+# 工具生成的文件
+.make_helper.py
+
+# setuptools_scm生成的版本文件
+# 这个文件会被setuptools_scm自动生成，不应该提交到版本控制
+src/my_python_project/_version.py
+
+# Docker dev environment
+.local/
+.dotnet/
+.bash_history
+.jupyter/
+.npm/
+.config/
+.cache/
+.ipython/
+
+# PDM package manager
+.pdm-python
+__pypackages__/
+pdm.lock
+
+# Backup files
+*.bak
+*~
+.*.swp
+
+.vscode-server/

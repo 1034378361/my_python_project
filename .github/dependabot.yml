@@ -1,0 +1,61 @@
+version: 2
+updates:
+  # 维护 Python 依赖
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Asia/Shanghai"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "python"
+    commit-message:
+      prefix: "依赖"
+      include: "scope"
+    ignore:
+      # 忽略主要版本更新，因为它们可能包含破坏性更改
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    # 分组相关依赖的更新
+    groups:
+      dev-dependencies:
+        patterns:
+          - "pytest*"
+          - "black"
+          - "mypy"
+          - "isort"
+          - "ruff"
+      documentation:
+        patterns:
+          - "sphinx*"
+          - "*sphinx*"
+
+  # 维护 GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "CI"
+      include: "scope"
+
+  # 维护 Dockerfile
+  - package-ecosystem: "docker"
+    directory: "/.devcontainer"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "Docker"
+      include: "scope"

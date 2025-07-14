@@ -1,0 +1,101 @@
+# Git相关
+.git
+.gitignore
+.gitattributes
+
+# Python相关
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
+
+# 开发环境
+.venv
+venv/
+.env
+.env.local
+.env.*.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 文档
+docs/_build/
+docs/build/
+site/
+
+# 构建产物
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# 测试和报告
+htmlcov/
+.coverage
+.pytest_cache/
+.tox/
+.mypy_cache/
+junit.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# 临时文件
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# CI/CD文件
+.github/
+.gitlab-ci.yml
+Jenkinsfile
+
+# 其他配置文件
+.pre-commit-config.yaml
+tox.ini
+Makefile
+setup.cfg
+
+# 安全报告
+bandit-report.json
+safety-report.json
+.secrets.baseline
+
+# 日志文件
+*.log
+logs/
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 证书和密钥
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx

@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "standard": {
+      "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+      "datefmt": "%Y-%m-%d %H:%M:%S"
+    },
+    "detailed": {
+      "format": "[%(asctime)s] %(name)s.%(funcName)s:%(lineno)d - %(levelname)s - %(message)s",
+      "datefmt": "%Y-%m-%d %H:%M:%S"
+    },
+    "json": {
+      "()": "my_python_project.utils.logging_utils.JsonFormatter",
+      "include_extra": true
+    }
+  },
+  "filters": {
+    "performance": {
+      "()": "my_python_project.utils.logging_utils.PerformanceFilter",
+      "min_duration": 0.1
+    }
+  },
+  "handlers": {
+    "console": {
+      "class": "logging.StreamHandler",
+      "level": "INFO",
+      "formatter": "standard",
+      "stream": "ext://sys.stdout"
+    },
+    "file_handler": {
+      "class": "logging.FileHandler",
+      "level": "INFO",
+      "formatter": "detailed",
+      "filename": "logs/my_python_project.log",
+      "encoding": "utf-8"
+    },
+    "error_file_handler": {
+      "class": "logging.FileHandler",
+      "level": "ERROR",
+      "formatter": "detailed",
+      "filename": "logs/my_python_project_errors.log",
+      "encoding": "utf-8"
+    },
+    "performance_handler": {
+      "class": "logging.FileHandler",
+      "level": "INFO",
+      "formatter": "json",
+      "filename": "logs/my_python_project_performance.log",
+      "encoding": "utf-8",
+      "filters": ["performance"]
+    }
+  },
+  "loggers": {
+    "my_python_project": {
+      "level": "INFO",
+      "handlers": ["console", "file_handler", "error_file_handler"],
+      "propagate": false
+    },
+    "my_python_project.performance": {
+      "level": "INFO",
+      "handlers": ["performance_handler"],
+      "propagate": false
+    },
+    "requests": {
+      "level": "WARNING",
+      "propagate": true
+    },
+    "urllib3": {
+      "level": "WARNING",
+      "propagate": true
+    }
+  },
+  "root": {
+    "level": "WARNING",
+    "handlers": ["console"]
+  }
+}
